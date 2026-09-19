@@ -1,4 +1,104 @@
-# FlyRank ML Internship — Starter Repo
+# Content Review Prioritization
+
+This project explores how to rank published pages for human review when a content team has
+more pages than it can investigate. It follows **Lane 2: Refresh / Content Opportunity
+Scoring** in the FlyRank ML Internship.
+
+The central question is:
+
+> Given limited editorial capacity, which pages should a team review first, based on
+> observable search performance and evidence of decline or opportunity?
+
+## The problem and why it matters
+
+A website can accumulate thousands of published pages. Some continue attracting readers,
+some lose search traffic, and others receive search exposure without attracting many clicks.
+Editors need to decide where to spend their time: investigate a decline, update information,
+improve a title, expand a useful page, or monitor a change before acting.
+
+This project's working scenario assumes a team can review approximately **20 to 50 pages
+per month**. That capacity is a planning assumption from the research question, not a
+measured staffing limit for every client. The practical challenge is to turn a large inventory
+into a short, explainable review queue.
+
+Looking only at page age, total traffic, or the largest percentage drop can produce poor
+priorities. An old page may still perform well. A large percentage drop may represent only
+a few lost clicks. A high-traffic page may deserve protection even when its percentage
+decline appears modest. The project will investigate whether combining several signals
+produces a more useful ranking than a simple rule.
+
+The consequences of a wrong recommendation run in both directions:
+
+- **Unnecessary review:** the team spends limited time investigating a page with little
+  evidence of a meaningful problem or opportunity.
+- **Missed priority:** a page with substantial demand and sustained deterioration receives
+  attention too late, or never reaches the review queue.
+
+These are the operational costs the project aims to address. Financial returns and traffic
+gains from acting on recommendations remain unmeasured.
+
+## Who uses the result and what they receive
+
+Content strategists and SEO managers would use the ranking to plan a review cycle. Editors
+would inspect the evidence and decide whether a change is appropriate.
+
+The intended output is one ranked entry per content item at a defined decision date, with:
+
+- A pseudonymized content identifier and client identifier.
+- A priority score whose meaning is documented. A score is not automatically a calibrated
+  probability or an estimate of financial value.
+- Measured evidence supporting the priority, such as exposure, traffic movement, or CTR.
+- Reason codes, such as `declining_with_demand` or `low_ctr_visible_page`, where the
+  measurements support them.
+- A suggested next step for human investigation and any relevant data limitations.
+
+For an illustrative comparison, a page with substantial search exposure and a sustained
+traffic drop may deserve earlier investigation than a page whose clicks fell from two to
+one. Both declined, but their scale and uncertainty differ. This example explains the
+decision; it is not a reported finding from the warehouse.
+
+## How success will be evaluated
+
+The project will compare a transparent rule baseline with a learned ranking using the same
+eligible pages, outcome definition, and validation split. A relevant measure is
+**Precision@K**: among the top K recommended pages, what fraction meet the defined outcome?
+K should match the assumed review capacity, such as 20 or 50 pages.
+
+A high Precision@K for a decline label means the queue concentrates pages that meet that
+decline definition. It does not measure whether refreshing them would succeed. Evaluation
+should also examine missed cases, low-volume errors, performance across clients, and whether
+the reason codes help a reviewer understand each recommendation.
+
+Future-outcome experiments need validation that respects time. Holding out entire clients
+provides an additional check on performance for clients not represented in training.
+Features derived from the answer or measured after the decision cannot enter the model.
+
+The bundled starter pipeline provides a reference example of comparing a baseline and a
+model. Its results describe its starter-data proxy and split. They do not establish the
+performance of this project's proposed warehouse ranking, which still needs its own tests.
+
+## Scope and limits
+
+- The project supports review decisions. Human reviewers determine whether to refresh,
+  investigate further, or leave a page alone.
+- Decline can reflect seasonality, changes in search results, tracking gaps, or traffic
+  moving to another page. It does not always imply outdated content.
+- Client histories vary in length. Eligibility filters can make the analyzed subset less
+  representative of clients with limited tracking history.
+- Snapshot metadata may not describe a page as it existed at an earlier prediction date.
+  Historical use requires a timing check.
+- Observational performance data cannot by itself establish that a refresh causes recovery,
+  reveal Google's ranking algorithm, or quantify the return on an editorial change.
+- Public outputs must use safe identifiers and summaries, without private client details,
+  raw URLs, raw search queries, or credentials.
+
+The selected problem and starter exploration are documented in the research-question
+notebook. The warehouse label, feature checks, and model evaluation remain work to complete.
+The internship setup and reference workflow follow below.
+
+---
+
+## FlyRank ML Internship: starter resources
 
 **Applied Search Intelligence: Google Search Ranking & Discoverability**
 
